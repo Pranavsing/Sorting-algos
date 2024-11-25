@@ -1,0 +1,205 @@
+// ॐ
+#include <bits/stdc++.h>
+using namespace std;
+#define ll long long
+#define ld long double
+#define pb push_back
+#define mp make_pair
+#define fr first
+#define sc second
+#define all(v) v.begin(), v.end()
+#define bac(v) v.rbegin(), v.rend()
+#define rep(i, a, b) for (ll i = a; i < b; ++i)
+#define endl '\n'
+#define precise(i) cout << fixed << setprecision(i)
+ll power(ll x, ll y)
+{
+    ll temp;
+    if (y == 0)
+        return 1;
+    temp = power(x, y / 2);
+    if (y % 2 == 0)
+        return temp * temp;
+    else
+        return x * temp * temp;
+}
+ll ncr(ll n, ll r)
+{
+    long long p = 1, k = 1;
+    if (n - r < r)
+        r = n - r;
+
+    if (r != 0)
+    {
+        while (r)
+        {
+            p *= n;
+            k *= r;
+            long long m = __gcd(p, k);
+            p /= m;
+            k /= m;
+            n--;
+            r--;
+        }
+    }
+    else
+    {
+        p = 1;
+    }
+    return p;
+}
+// QUICKSORT
+ll quicksort_fnc(vector<ll> &v, ll lo, ll hi)
+{
+    ll pi = v[lo];
+    ll i = lo + 1;
+    ll j = hi;
+    while (1)
+    {
+        while (i <= hi && v[i] <= pi)
+        {
+            i++;
+        }
+        while (j > lo && v[j] > pi)
+        {
+            j--;
+        }
+        if (j <= i)
+        {
+            break;
+        }
+        swap(v[i], v[j]);
+    }
+    swap(v[lo], v[j]);
+    return j;
+}
+void quicksort(vector<ll> &v, ll lo, ll hi)
+{
+    if (lo < hi)
+    {
+        ll pind = quicksort_fnc(v, lo, hi);
+        quicksort(v, lo, pind - 1);
+        quicksort(v, pind + 1, hi);
+    }
+}
+// MERGESORT
+vector<ll> mergesort(vector<ll> &vv, ll lo, ll hi)
+{
+    if (lo == hi)
+    {
+        vector<ll> tmp;
+        tmp.pb(vv[lo]);
+        return tmp;
+    }
+    ll mid = (lo + hi) / 2;
+    vector<ll> v1 = mergesort(vv, lo, mid);
+    vector<ll> v2 = mergesort(vv, mid + 1, hi);
+    ll i1 = 0;
+    ll i2 = 0;
+    vector<ll> v;
+    ll i = 0;
+    while (i1 < v1.size() && i2 < v2.size())
+    {
+        if (v1[i1] <= v2[i2])
+        {
+            v.pb(v1[i1]);
+            i1++;
+            i++;
+        }
+        else
+        {
+            v.pb(v2[i2]);
+            i2++;
+            i++;
+        }
+    }
+    while (i1 < v1.size())
+    {
+        v.pb(v1[i1]);
+        i1++;
+        i++;
+    }
+    while (i2 < v2.size())
+    {
+        v.pb(v2[i2]);
+        i2++;
+        i++;
+    }
+    return v;
+}
+
+// HEAPSORT
+void heap_helper(ll i, vector<ll> &v, ll n)
+{
+    ll ind = i;
+    ll lind = i;
+    ll ind1 = 2 * i + 1;
+    ll ind2 = 2 * i + 2;
+    if (ind1 < n)
+    {
+        if (v[ind1] > v[lind])
+        {
+            lind = ind1;
+        }
+    }
+    if (ind2 < n)
+    {
+        if (v[ind2] > v[lind])
+        {
+            lind = ind2;
+        }
+    }
+    if (ind != lind)
+    {
+        swap(v[ind], v[lind]);
+        heap_helper(lind, v, n);
+    }
+}
+void heapify(vector<ll> &v, ll n)
+{
+    for (ll i = n / 2 - 1; i >= 0; i--)
+    {
+        heap_helper(i, v, n);
+    }
+}
+int main()
+{
+    ios_base::sync_with_stdio(0);
+    cin.tie(0);
+    ll t;
+    cin >> t;
+    for (ll r = 0; r < t; r++)
+    {
+        ll n;
+        cin >> n;
+        vector<ll> v;
+        for (ll i = 0; i < n; i++)
+        {
+            ll x;
+            cin >> x;
+            v.pb(x);
+        }
+        // QUICKSORT
+        // quicksort(v, 0, n - 1);
+        // MERGESORT
+        // vector<ll> xv = mergesort(v, 0, n - 1);
+        // for (ll i = 0; i < n; i++)
+        // {
+        //     v[i] = xv[i];
+        // }
+        // HEAPSORT
+        // heapify(v, n);
+        // for (ll i = n - 1; i > 0; i--)
+        // {
+        //     swap(v[i], v[0]);
+        //     heapify(v, i);
+        // }
+        // OUTPUT
+        for (auto it : v)
+        {
+            cout << it << " ";
+        }
+        cout << endl;
+    }
+    return 0;
+}
